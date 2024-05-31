@@ -2,13 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:take_off_checklist/models/checklist.dart';
 
 class CreateChecklistScreen extends StatefulWidget {
+  final Checklist? checklist;
+
+  CreateChecklistScreen({this.checklist});
+
   @override
   _CreateChecklistScreenState createState() => _CreateChecklistScreenState();
 }
 
 class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
-  final _titleController = TextEditingController();
-  final List<TextEditingController> _itemControllers = [];
+  late TextEditingController _titleController;
+  late List<TextEditingController> _itemControllers;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController =
+        TextEditingController(text: widget.checklist?.title ?? '');
+    _itemControllers = widget.checklist?.items
+            .map((item) => TextEditingController(text: item.description))
+            .toList() ??
+        [];
+  }
 
   void _addChecklistItem() {
     setState(() {
@@ -27,11 +42,18 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
     Navigator.pop(context, newChecklist);
   }
 
+  void _deleteItem(int index) {
+    setState(() {
+      _itemControllers.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Checklist'),
+        title: Text(
+            widget.checklist == null ? 'Create Checklist' : 'Edit Checklist'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -45,20 +67,29 @@ class _CreateChecklistScreenState extends State<CreateChecklistScreen> {
               child: ListView.builder(
                 itemCount: _itemControllers.length,
                 itemBuilder: (context, index) {
-                  return TextField(
-                    controller: _itemControllers[index],
-                    decoration: InputDecoration(labelText: 'Item ${index + 1}'),
+                  return ListTile(
+                    title: TextField(
+                      controller: _itemControllers[index],
+                      decoration:
+                          InputDecoration(labelText: 'Item ${index + 1}'),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        _deleteItem(index);
+                      },
+                    ),
                   );
                 },
               ),
             ),
             ElevatedButton(
               onPressed: _addChecklistItem,
-              child: const Text('Add Item'),
+              child: Text('Add Item'),
             ),
             ElevatedButton(
               onPressed: _saveChecklist,
-              child: const Text('Save Checklist'),
+              child: Text('Save Checklist'),
             ),
           ],
         ),
