@@ -6,6 +6,8 @@ import 'package:take_off_checklist/screens/checklist_screen.dart';
 import 'package:take_off_checklist/screens/create_checklist_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
+
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
@@ -109,7 +111,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 );
               },
               trailing: IconButton(
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
                 onPressed: () {
                   _navigateToCreateChecklist(context, index: index);
                 },
@@ -120,7 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _navigateToCreateChecklist(context),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -5,7 +5,8 @@ class ChecklistScreen extends StatefulWidget {
   final Checklist checklist;
   final VoidCallback onDelete;
 
-  ChecklistScreen({required this.checklist, required this.onDelete});
+  const ChecklistScreen(
+      {super.key, required this.checklist, required this.onDelete});
 
   @override
   _ChecklistScreenState createState() => _ChecklistScreenState();
@@ -46,7 +47,7 @@ class _ChecklistScreenState extends State<ChecklistScreen> {
         title: Text(widget.checklist.title),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             onPressed: widget.onDelete,
           ),
         ],
@@ -71,7 +72,7 @@ class _ChecklistScreenState extends State<ChecklistScreen> {
                     },
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () {
                       _deleteItem(index);
                     },
@@ -81,8 +82,8 @@ class _ChecklistScreenState extends State<ChecklistScreen> {
             ),
           ),
           if (allChecked)
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
               child: Text('All Checked!',
                   style: TextStyle(color: Colors.green, fontSize: 18)),
             ),
@@ -92,7 +93,7 @@ class _ChecklistScreenState extends State<ChecklistScreen> {
               decoration: InputDecoration(
                 labelText: 'New Item',
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: () {
                     _addItem(''); // Add a new empty item
                   },
